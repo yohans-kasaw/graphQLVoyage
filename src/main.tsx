@@ -1,15 +1,18 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client'
-import { ApolloProvider } from '@apollo/client/react'
-
+import { MockedProvider } from '@apollo/client/testing/react'
+import apolloMock from './lib/apolloMock.ts'
 import './index.css'
 import App from './App.tsx'
 
-const apolloClient = new ApolloClient({
-    link: new HttpLink({ uri: 'https://flyby-router-demo.herokuapp.com/' }),
-    cache: new InMemoryCache(),
-})
+
+// import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client'
+// import { ApolloProvider } from '@apollo/client/react'
+// const apolloClient = new ApolloClient({
+//     link: new HttpLink({ uri: 'https://flyby-router-demo.herokuapp.com/' }),
+//     cache: new InMemoryCache(),
+// })
+
 
 const rootElm = document.getElementById('root')
 if (!rootElm) {
@@ -17,9 +20,15 @@ if (!rootElm) {
 }
 
 createRoot(rootElm).render(
-    <ApolloProvider client={apolloClient}>
+    <MockedProvider mocks={apolloMock}>
         <StrictMode>
             <App />
         </StrictMode>
-    </ApolloProvider>,
+    </MockedProvider>,
+
+    // <ApolloProvider client={apolloClient}>
+    //     <StrictMode>
+    //         <App />
+    //     </StrictMode>
+    // </MockedProvider>,
 )
