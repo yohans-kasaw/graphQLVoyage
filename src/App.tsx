@@ -1,9 +1,10 @@
 import './App.css'
+import Locations from '@components/Locations'
 
 function App() {
     return (
         <>
-            <div className="underline">Hello</div>
+            <Locations />
         </>
     )
 }
