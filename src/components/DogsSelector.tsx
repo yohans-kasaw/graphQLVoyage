@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@apollo/client/react'
 import { GET_DOGS } from '@lib/queries'
 import type { Dog } from '@lib/types'
-import React from 'react'
+import React, { startTransition } from 'react'
 
 function DogsSelector({
     onDogSelected,
@@ -15,7 +15,14 @@ function DogsSelector({
     return (
         <>
             <h4 style={{ color: 'red' }}>select dog please</h4>
-            <select name="select dog" onChange={onDogSelected}>
+            <select
+                name="select dog"
+                onChange={(event) => {
+                    startTransition(() => {
+                        onDogSelected(event)
+                    })
+                }}
+            >
                 {data.dogs.map((dog) => (
                     <option key={dog.id} value={dog.id}>
                         {dog.breed}
