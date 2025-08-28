@@ -4,5 +4,11 @@ interface Location {
     description: string
 }
 
+interface Dog {
+    id: string
+    name: string
+    breed: string
+    description: string
+}
 
-export type { Location }
+export type { Location, Dog }

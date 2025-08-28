@@ -1,10 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { MockedProvider } from '@apollo/client/testing/react'
-import apolloMock from './lib/apolloMock.ts'
 import './index.css'
 import App from './App.tsx'
 
+
+import { MockedProvider } from '@apollo/client/testing/react'
+import apolloMock from './lib/apolloMock.ts'
 
 // import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client'
 // import { ApolloProvider } from '@apollo/client/react'
@@ -21,14 +22,14 @@ if (!rootElm) {
 
 createRoot(rootElm).render(
     <MockedProvider mocks={apolloMock}>
-        <StrictMode>
-            <App />
-        </StrictMode>
-    </MockedProvider>,
+      <StrictMode>
+          <App />
+      </StrictMode>
+    </MockedProvider>
 
-    // <ApolloProvider client={apolloClient}>
-    //     <StrictMode>
-    //         <App />
-    //     </StrictMode>
-    // </MockedProvider>,
+    //<ApolloProvider client={apolloClient}>
+    //    <StrictMode>
+    //        <App />
+    //    </StrictMode>
+    //</ApolloProvider>
 )
