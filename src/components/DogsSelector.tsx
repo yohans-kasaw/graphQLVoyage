@@ -21,7 +21,7 @@ function DogsSelector({
             <h4 style={{ color: 'red' }}>select dog please</h4>
             <select name="select dog" onChange={onDogSelected}>
                 {data.dogs.map((dog) => (
-                    <option key={dog.id} value={dog.breed}>
+                    <option key={dog.id} value={dog.id}>
                         {dog.breed}
                     </option>
                 ))}

@@ -5,16 +5,17 @@ import DogsDescription from './components/DogsDescription'
 import React, { useState } from 'react'
 
 function App() {
-    const [breed, setBreed] = useState('')
+    const [id, setId] = useState<number>(1)
     function onDogSelected(event: React.ChangeEvent<HTMLSelectElement>) {
-        setBreed(event.target.value)
+        const value = +event.target.value
+        setId(isNaN(value) ? 1 : value)
     }
 
     return (
         <>
             <DogsSelector onDogSelected={onDogSelected} />
             <br />
-            <DogsDescription breed={breed} />
+            <DogsDescription id={id} />
             <br />
             <br />
             <Locations />

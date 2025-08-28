@@ -1,4 +1,4 @@
-import { GET_LOCATIONS, GET_DOGS, GET_DOG_BY_BREED } from '@lib/queries.ts'
+import { GET_LOCATIONS, GET_DOGS, GET_DOG_BY_ID } from '@lib/queries.ts'
 
 export default [
     {
@@ -24,31 +24,69 @@ export default [
     },
     {
         request: {
-            query: GET_DOG_BY_BREED,
-            variables: { breed: 'Golden Retriever' },
+            query: GET_DOG_BY_ID,
+            variables: { id: 1 },
         },
         result: {
             data: {
-                id: 1,
-                name: 'Buddy',
-                breed: 'Golden Retriever',
-                description:
-                    'A friendly and loyal family dog known for a gentle temperament and a playful attitude.',
+                dog: {
+                    id: 1,
+                    name: 'Buddy',
+                    breed: 'Golden Retriever',
+                    description:
+                        'A friendly and loyal family dog known for a gentle temperament and a playful attitude.',
+                },
             },
         },
     },
     {
         request: {
-            query: GET_DOG_BY_BREED,
-            variables: { breed: 'Labrador Retriever' },
+            query: GET_DOG_BY_ID,
+            variables: { id: 2 },
         },
         result: {
             data: {
-                id: 2,
-                name: 'Lucy',
-                breed: 'Labrador Retriever',
-                description:
-                    'An energetic and outgoing dog that is highly trainable and loves to swim and play fetch.',
+                dog: {
+                    id: 2,
+                    name: 'Lucy',
+                    breed: 'Labrador Retriever',
+                    description:
+                        'An energetic and outgoing dog that is highly trainable and loves to swim and play fetch.',
+                },
+            },
+        },
+    },
+    {
+        request: {
+            query: GET_DOG_BY_ID,
+            variables: { id: 3 },
+        },
+        result: {
+            data: {
+                dog: {
+                    id: 3,
+                    name: 'Max',
+                    breed: 'German Shepherd',
+                    description:
+                        'A highly intelligent and courageous dog, often used in police and military roles due to its strong work ethic.',
+                },
+            },
+        },
+    },
+    {
+        request: {
+            query: GET_DOG_BY_ID,
+            variables: { id: 4 },
+        },
+        result: {
+            data: {
+                dog: {
+                    id: 4,
+                    name: 'Daisy',
+                    breed: 'Beagle',
+                    description:
+                        'A small, compact hound with a keen sense of smell, known for being cheerful and curious.',
+                },
             },
         },
     },

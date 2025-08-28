@@ -19,9 +19,9 @@ export const GET_DOGS = gql`
     }
 `
 
-export const GET_DOG_BY_BREED = gql`
-    query GetDogByBreed($breed: String!) {
-        dog(breed: $breed) {
+export const GET_DOG_BY_ID = gql`
+    query GetDogByBreed($id: Int!) {
+        dog(id: $id) {
             id
             name
             breed
