@@ -48,7 +48,7 @@ export function ProductDrawer({
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm"
+          className="fixed inset-0 bg-black bg-opacity-20 z-40"
           onClick={onClose}
         />
       )}
