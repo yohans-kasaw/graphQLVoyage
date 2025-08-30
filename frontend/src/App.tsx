@@ -70,76 +70,108 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-40">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <ArchiveBoxIcon className="h-6 w-6 text-indigo-600 mr-2" />
-              <h1 className="text-xl font-semibold text-gray-900">Inventory</h1>
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+                <ArchiveBoxIcon className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                  Inventory Hub
+                </h1>
+                <p className="text-xs text-gray-500 font-medium">Smart warehouse management</p>
+              </div>
             </div>
-            <div className="text-sm text-gray-500">
-              {totalProducts > 0 && `${totalProducts} products`}
+            <div className="flex items-center space-x-4">
+              {totalProducts > 0 && (
+                <div className="px-3 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">
+                  {totalProducts} products
+                </div>
+              )}
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-6">
-        <Filters
-          search={search}
-          setSearch={setSearch}
-          status={status}
-          setStatus={setStatus}
-          warehouse={warehouse}
-          setWarehouse={setWarehouse}
-          warehouseCodes={warehouseCodes}
-        />
-
+      <main className="mx-auto max-w-7xl px-4 py-8">
+        <div className="mb-8">
+          <Filters
+            search={search}
+            setSearch={setSearch}
+            status={status}
+            setStatus={setStatus}
+            warehouse={warehouse}
+            setWarehouse={setWarehouse}
+            warehouseCodes={warehouseCodes}
+          />
+        </div>
 
         {(wLoading || pLoading) && (
-          <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <div className="flex flex-col justify-center items-center py-16">
+            <div className="relative">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-indigo-200"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent absolute top-0"></div>
+            </div>
+            <p className="mt-4 text-gray-600 font-medium">Loading inventory...</p>
           </div>
         )}
 
         {!pLoading && products.length === 0 && (
-          <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
-            <ArchiveBoxIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-1">No products found</h3>
-            <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+          <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-16 text-center">
+            <div className="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <ArchiveBoxIcon className="h-10 w-10 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">No products found</h3>
+            <p className="text-gray-600 max-w-md mx-auto">Try adjusting your search or filter criteria to find what you're looking for</p>
           </div>
         )}
 
-        <div className="mt-6 grid gap-4">
-          {products.map((p) => (
-            <ProductCard
+        <div className="grid gap-4 animate-in fade-in duration-500">
+          {products.map((p, index) => (
+            <div 
               key={`${p.id}-${p.warehouse}`}
-              product={p}
-              onClick={handleProductClick}
-            />
+              className="animate-in slide-in-from-bottom duration-300"
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              <ProductCard
+                product={p}
+                onClick={handleProductClick}
+              />
+            </div>
           ))}
         </div>
 
         {totalProducts > 0 && (
-          <div className="mt-8 flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border">
-            <p className="text-sm text-gray-700">
-              Showing <span className="font-medium">{(page - 1) * pageSize + 1}</span> to{' '}
-              <span className="font-medium">{Math.min(page * pageSize, totalProducts)}</span> of{' '}
-              <span className="font-medium">{totalProducts}</span> results
-            </p>
-            <div className="flex gap-2">
+          <div className="mt-12 flex justify-between items-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-200/50">
+            <div className="flex items-center space-x-4">
+              <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
+              <p className="text-sm text-gray-700">
+                Showing <span className="font-bold text-indigo-600">{(page - 1) * pageSize + 1}</span> to{' '}
+                <span className="font-bold text-indigo-600">{Math.min(page * pageSize, totalProducts)}</span> of{' '}
+                <span className="font-bold text-indigo-600">{totalProducts}</span> results
+              </p>
+            </div>
+            <div className="flex gap-3">
               <button
                 onClick={() => setPage(p => p - 1)}
                 disabled={page === 1}
-                className="px-4 py-2 border rounded-md bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-5 py-2.5 border border-gray-300 rounded-xl bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 shadow-sm"
               >
                 Previous
               </button>
+              <div className="flex items-center px-3 py-2 bg-indigo-100 rounded-xl">
+                <span className="text-sm font-bold text-indigo-700">{page}</span>
+                <span className="text-sm text-indigo-500 mx-1">of</span>
+                <span className="text-sm font-bold text-indigo-700">{totalPages}</span>
+              </div>
               <button
                 onClick={() => setPage(p => p + 1)}
                 disabled={page === totalPages}
-                className="px-4 py-2 border rounded-md bg-indigo-50 text-sm font-medium text-indigo-700 hover:bg-indigo-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-5 py-2.5 border border-indigo-300 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-sm font-medium text-white hover:from-indigo-600 hover:to-purple-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 shadow-sm"
               >
                 Next
               </button>
