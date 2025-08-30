@@ -21,7 +21,7 @@ export function Filters({
   warehouseCodes
 }: FiltersProps) {
   return (
-    <div className="bg-white/70 backdrop-blur-md p-6 rounded-2xl border border-gray-200/50 shadow-xl">
+    <div className="bg-white/70 backdrop-blur-md p-6 rounded-2xl border border-gray-200/50 shadow-sm">
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="relative flex-1">
           <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
