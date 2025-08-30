@@ -98,7 +98,7 @@ export default function App() {
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-8">
-        <div className="mb-8">
+        <div className="mb-8 max-w-5xl mx-auto">
           <Filters
             search={search}
             setSearch={setSearch}
@@ -121,7 +121,7 @@ export default function App() {
         )}
 
         {!pLoading && products.length === 0 && (
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-200/60 p-16 text-center">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-200/60 p-16 text-center max-w-5xl mx-auto">
             <div className="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-6">
               <ArchiveBoxIcon className="h-10 w-10 text-gray-400" />
             </div>
@@ -130,7 +130,7 @@ export default function App() {
           </div>
         )}
 
-        <div className="grid gap-4 animate-in fade-in duration-500">
+        <div className="grid gap-4 animate-in fade-in duration-500 max-w-5xl mx-auto">
           {products.map((p, index) => (
             <div 
               key={`${p.id}-${p.warehouse}`}
@@ -146,7 +146,7 @@ export default function App() {
         </div>
 
         {totalProducts > 0 && (
-          <div className="mt-12 flex justify-between items-center bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-gray-200/60">
+          <div className="mt-12 flex justify-between items-center bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-gray-200/60 max-w-5xl mx-auto">
             <div className="flex items-center space-x-4">
               <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
               <p className="text-sm text-gray-700">

@@ -17,7 +17,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
 
   return (
     <div 
-      className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-gray-200/60 cursor-pointer hover:shadow-lg hover:border-indigo-300/60 transition-all duration-300 group hover:bg-white/90 max-w-5xl mx-auto"
+      className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-gray-200/60 cursor-pointer hover:shadow-lg hover:border-indigo-300/60 transition-all duration-300 group hover:bg-white/90"
       onClick={() => onClick(product)}
     >
       <div className="flex items-center justify-between">
