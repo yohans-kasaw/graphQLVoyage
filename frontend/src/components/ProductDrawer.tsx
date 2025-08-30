@@ -24,9 +24,9 @@ export function ProductDrawer({
   onTransfer,
   busy
 }: ProductDrawerProps) {
-  const [demand, setDemand] = useState<number>(0);
+  const [demand, setDemand] = useState<number | ''>('');
   const [to, setTo] = useState<string>('');
-  const [qty, setQty] = useState<number>(0);
+  const [qty, setQty] = useState<number | ''>('');
   const [activeTab, setActiveTab] = useState<'details' | 'demand' | 'transfer'>('details');
   const [demandError, setDemandError] = useState<string>('');
   const [transferError, setTransferError] = useState<string>('');
@@ -35,40 +35,42 @@ export function ProductDrawer({
     if (product) {
       setDemand(product.demand);
       setTo('');
-      setQty(0);
+      setQty('');
       setActiveTab('details');
       setDemandError('');
       setTransferError('');
     }
   }, [product]);
 
-  const validateDemand = (value: number): string => {
+  const validateDemand = (value: number | ''): string => {
+    if (value === '') return '';
     if (!Number.isInteger(value)) return 'Demand must be a whole number';
     if (value < 0) return 'Demand cannot be negative';
     return '';
   };
 
-  const validateTransfer = (toWarehouse: string, quantity: number): string => {
+  const validateTransfer = (toWarehouse: string, quantity: number | ''): string => {
     if (!toWarehouse) return 'Please select a destination warehouse';
+    if (quantity === '') return 'Please enter a quantity';
     if (!Number.isInteger(quantity)) return 'Quantity must be a whole number';
     if (quantity <= 0) return 'Quantity must be greater than 0';
     if (quantity > product.stock) return `Cannot transfer more than available stock (${product.stock})`;
     return '';
   };
 
-  const handleDemandChange = (value: number) => {
+  const handleDemandChange = (value: number | '') => {
     setDemand(value);
     setDemandError(validateDemand(value));
   };
 
-  const handleTransferChange = (toWarehouse: string, quantity: number) => {
+  const handleTransferChange = (toWarehouse: string, quantity: number | '') => {
     setTo(toWarehouse);
     setQty(quantity);
     setTransferError(validateTransfer(toWarehouse, quantity));
   };
 
-  const isDemandValid = demand >= 0 && Number.isInteger(demand) && demandError === '';
-  const isTransferValid = to && qty > 0 && qty <= product.stock && Number.isInteger(qty) && transferError === '';
+  const isDemandValid = demand !== '' && demand >= 0 && Number.isInteger(demand) && demandError === '';
+  const isTransferValid = to && qty !== '' && qty > 0 && qty <= product.stock && Number.isInteger(qty) && transferError === '';
 
   if (!product) return null;
 
@@ -232,7 +234,7 @@ export function ProductDrawer({
                       value={demand}
                       min={0}
                       step={1}
-                      onChange={(e) => handleDemandChange(Number(e.target.value))}
+                      onChange={(e) => handleDemandChange(e.target.value === '' ? '' : Number(e.target.value))}
                       className={`w-full rounded-xl border py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/50 backdrop-blur-sm ${
                         demandError ? 'border-red-300 focus:border-red-400 focus:ring-red-500/20' : 'border-gray-200/50'
                       }`}
@@ -246,7 +248,7 @@ export function ProductDrawer({
                   
                   <button
                     disabled={busy || demand === product.demand || !isDemandValid}
-                    onClick={() => onUpdateDemand(product.id, demand)}
+                    onClick={() => onUpdateDemand(product.id, demand as number)}
                     className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold hover:from-indigo-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
                     {busy ? (
@@ -319,9 +321,9 @@ export function ProductDrawer({
                       max={product.stock}
                       step={1}
                       value={qty}
-                      onChange={(e) => handleTransferChange(to, Number(e.target.value))}
+                      onChange={(e) => handleTransferChange(to, e.target.value === '' ? '' : Number(e.target.value))}
                       className={`w-full rounded-xl border py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/50 backdrop-blur-sm ${
-                        transferError && qty > 0 ? 'border-red-300 focus:border-red-400 focus:ring-red-500/20' : 'border-gray-200/50'
+                        transferError && qty !== '' ? 'border-red-300 focus:border-red-400 focus:ring-red-500/20' : 'border-gray-200/50'
                       }`}
                       placeholder="Enter quantity"
                     />
@@ -340,7 +342,7 @@ export function ProductDrawer({
                         : 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 hover:scale-[1.02] active:scale-[0.98]'
                     }`}
                     onClick={() =>
-                      onTransfer({ id: product.id, from: product.warehouse, to, qty })
+                      onTransfer({ id: product.id, from: product.warehouse, to, qty: qty as number })
                     }
                   >
                     {busy ? (
