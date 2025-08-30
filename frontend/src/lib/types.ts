@@ -1,14 +1,21 @@
-interface Location {
-    id: string
+export interface Warehouse {
+    code: string
     name: string
-    description: string
+    city: string
+    country: string
 }
 
-interface Dog {
+export interface Product {
     id: string
     name: string
-    breed: string
-    description: string
+    sku: string
+    warehouse: string
+    stock: number
+    demand: number
 }
 
-export type { Location, Dog }
+export interface KPI {
+    date: string
+    stock: number
+    demand: number
+}
