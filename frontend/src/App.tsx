@@ -71,13 +71,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="border-b bg-white shadow-sm">
-        <div className="mx-auto max-w-7xl px-4 py-5">
-          <div className="flex items-center">
-            <ArchiveBoxIcon className="h-8 w-8 text-indigo-600 mr-3" />
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Inventory Dashboard</h1>
-              <p className="text-sm text-gray-500">Manage your product inventory across warehouses</p>
+      <header className="bg-white border-b">
+        <div className="mx-auto max-w-7xl px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <ArchiveBoxIcon className="h-6 w-6 text-indigo-600 mr-2" />
+              <h1 className="text-xl font-semibold text-gray-900">Inventory</h1>
+            </div>
+            <div className="text-sm text-gray-500">
+              {totalProducts > 0 && `${totalProducts} products`}
             </div>
           </div>
         </div>
@@ -94,11 +96,6 @@ export default function App() {
           warehouseCodes={warehouseCodes}
         />
 
-        <div className="mt-6 mb-4 flex justify-between items-center">
-          <h2 className="text-lg font-medium text-gray-900">
-            {totalProducts > 0 ? `Products (${totalProducts})` : 'Products'}
-          </h2>
-        </div>
 
         {(wLoading || pLoading) && (
           <div className="flex justify-center items-center py-12">

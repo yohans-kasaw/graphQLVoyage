@@ -74,72 +74,61 @@ export function ProductDrawer({
                 <Dialog.Panel className="pointer-events-auto w-screen sm:w-[450px]">
                   <div className="flex flex-col h-full bg-white shadow-2xl">
                     {/* Header */}
-                    <div className="flex items-center justify-between p-5 border-b bg-indigo-50">
-                      <Dialog.Title className="text-xl font-semibold text-indigo-900">
-                        Product Details
+                    <div className="flex items-center justify-between p-4 border-b">
+                      <Dialog.Title className="text-lg font-semibold text-gray-900">
+                        {product.name}
                       </Dialog.Title>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-indigo-100 rounded-full text-indigo-700 transition-colors"
-              aria-label="Close drawer"
-            >
-              <XMarkIcon className="w-5 h-5" />
-            </button>
-          </div>
+                      <button
+                        onClick={onClose}
+                        className="p-1 hover:bg-gray-100 rounded text-gray-500"
+                      >
+                        <XMarkIcon className="w-5 h-5" />
+                      </button>
+                    </div>
 
           {/* Tabs */}
           <div className="flex border-b">
             <button
-              className={`flex-1 py-3 px-4 text-sm font-medium ${
+              className={`flex-1 py-2 text-sm font-medium ${
                 activeTab === 'details' 
                   ? 'text-indigo-600 border-b-2 border-indigo-600' 
-                  : 'text-gray-500 hover:text-gray-700'
+                  : 'text-gray-500'
               }`}
               onClick={() => setActiveTab('details')}
             >
-              <div className="flex items-center justify-center">
-                <ArchiveBoxIcon className="w-4 h-4 mr-2" />
-                Details
-              </div>
+              Details
             </button>
             <button
-              className={`flex-1 py-3 px-4 text-sm font-medium ${
+              className={`flex-1 py-2 text-sm font-medium ${
                 activeTab === 'demand' 
                   ? 'text-indigo-600 border-b-2 border-indigo-600' 
-                  : 'text-gray-500 hover:text-gray-700'
+                  : 'text-gray-500'
               }`}
               onClick={() => setActiveTab('demand')}
             >
-              <div className="flex items-center justify-center">
-                <ChartBarIcon className="w-4 h-4 mr-2" />
-                Update Demand
-              </div>
+              Demand
             </button>
             <button
-              className={`flex-1 py-3 px-4 text-sm font-medium ${
+              className={`flex-1 py-2 text-sm font-medium ${
                 activeTab === 'transfer' 
                   ? 'text-indigo-600 border-b-2 border-indigo-600' 
-                  : 'text-gray-500 hover:text-gray-700'
+                  : 'text-gray-500'
               }`}
               onClick={() => setActiveTab('transfer')}
             >
-              <div className="flex items-center justify-center">
-                <ArrowsRightLeftIcon className="w-4 h-4 mr-2" />
-                Transfer
-              </div>
+              Transfer
             </button>
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto p-5">
+          <div className="flex-1 overflow-y-auto p-4">
             {activeTab === 'details' && (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-medium text-gray-900">{product.name}</h3>
-                  <Badge color={status.color} size="md">{status.label}</Badge>
+                  <Badge color={status.color}>{status.label}</Badge>
                 </div>
                 
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div className="bg-gray-50 p-3 rounded border">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm font-medium text-gray-500">SKU</p>
@@ -161,32 +150,23 @@ export function ProductDrawer({
                 </div>
                 
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-2">Stock vs Demand</h4>
-                  <div className="bg-gray-100 rounded-full h-4 mb-1">
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-gray-600">Stock Level</span>
+                    <span className="font-medium">{stockPercentage}%</span>
+                  </div>
+                  <div className="bg-gray-200 rounded-full h-2">
                     <div 
-                      className={`h-4 rounded-full ${status.color === 'green' ? 'bg-green-500' : status.color === 'yellow' ? 'bg-yellow-500' : 'bg-red-500'}`}
+                      className={`h-2 rounded-full ${status.color === 'green' ? 'bg-green-500' : status.color === 'yellow' ? 'bg-yellow-500' : 'bg-red-500'}`}
                       style={{ width: `${stockPercentage}%` }}
                     ></div>
-                  </div>
-                  <div className="flex justify-between text-xs text-gray-500">
-                    <span>0%</span>
-                    <span>{stockPercentage}%</span>
-                    <span>100%</span>
                   </div>
                 </div>
               </div>
             )}
 
             {activeTab === 'demand' && (
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">Update Product Demand</h3>
-                  <p className="text-sm text-gray-500 mb-6">
-                    Adjust the demand level for this product. This will affect inventory planning and stock status calculations.
-                  </p>
-                </div>
-                
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
+              <div className="space-y-4">
+                <div className="bg-gray-50 p-3 rounded border">
                   <div className="flex justify-between mb-2">
                     <span className="text-sm font-medium text-gray-700">Current Demand:</span>
                     <span className="text-sm font-semibold text-gray-900">{product.demand}</span>
@@ -197,71 +177,55 @@ export function ProductDrawer({
                   </div>
                 </div>
                 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      New Demand Level
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Demand Level
                     </label>
                     <input
                       type="number"
                       value={demand}
                       min={0}
                       onChange={(e) => setDemand(Number(e.target.value))}
-                      className="w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full rounded border py-2 px-3 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                     />
                   </div>
                   
                   <button
                     disabled={busy || demand === product.demand}
                     onClick={() => onUpdateDemand(product.id, demand)}
-                    className="w-full px-4 py-3 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-colors"
+                    className="w-full py-2 rounded bg-indigo-600 text-white font-medium hover:bg-indigo-700 disabled:opacity-50"
                   >
-                    {busy ? 'Updating...' : 'Update Demand'}
+                    {busy ? 'Updating...' : 'Update'}
                   </button>
                 </div>
               </div>
             )}
 
             {activeTab === 'transfer' && (
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">Transfer Stock</h3>
-                  <p className="text-sm text-gray-500 mb-6">
-                    Move inventory between warehouses to balance stock levels and meet regional demand.
-                  </p>
+              <div className="space-y-4">
+                <div className="bg-blue-50 p-3 rounded border text-sm">
+                  Available: <span className="font-semibold">{product.stock}</span>
                 </div>
                 
-                <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100 mb-6">
-                  <div className="flex items-center">
-                    <TruckIcon className="h-5 w-5 text-indigo-600 mr-2" />
-                    <span className="text-sm font-medium text-indigo-800">
-                      Available stock for transfer: <span className="font-bold">{product.stock}</span>
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      From Warehouse
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">From</label>
                     <input
                       value={product.warehouse}
                       disabled
-                      className="w-full rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-gray-500"
+                      className="w-full rounded border bg-gray-50 py-2 px-3 text-gray-500"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      To Warehouse
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">To</label>
                     <select
                       value={to}
                       onChange={(e) => setTo(e.target.value)}
-                      className="w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full rounded border py-2 px-3 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                     >
-                      <option value="">Select destination warehouse</option>
+                      <option value="">Select warehouse</option>
                       {allWarehouses
                         .filter((w) => w !== product.warehouse)
                         .map((w) => (
@@ -273,32 +237,25 @@ export function ProductDrawer({
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Quantity to Transfer
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
                     <input
                       type="number"
                       min={1}
                       max={product.stock}
                       value={qty}
                       onChange={(e) => setQty(Number(e.target.value))}
-                      className="w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full rounded border py-2 px-3 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                     />
-                    {qty > product.stock && (
-                      <p className="mt-1 text-sm text-red-600">
-                        Cannot transfer more than available stock.
-                      </p>
-                    )}
                   </div>
                   
                   <button
                     disabled={busy || !to || qty <= 0 || qty > product.stock}
-                    className="w-full px-4 py-3 rounded-md bg-emerald-600 text-white font-medium hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 transition-colors"
+                    className="w-full py-2 rounded bg-emerald-600 text-white font-medium hover:bg-emerald-700 disabled:opacity-50"
                     onClick={() =>
                       onTransfer({ id: product.id, from: product.warehouse, to, qty })
                     }
                   >
-                    {busy ? 'Processing...' : 'Transfer Stock'}
+                    {busy ? 'Processing...' : 'Transfer'}
                   </button>
                 </div>
               </div>
