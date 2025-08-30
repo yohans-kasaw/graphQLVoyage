@@ -49,7 +49,7 @@ export function KPICard({ title, value, subtitle, icon, trend, color }: KPICardP
   return (
     <div className="relative group">
       {/* Glassy card with backdrop blur */}
-      <div className={`relative bg-white/70 backdrop-blur-xl rounded-2xl p-6 border border-white/40 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] ${colors.bg}`}>
+      <div className="relative bg-white/70 backdrop-blur-xl rounded-2xl p-6 border border-white/40 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
         {/* Shine effect overlay */}
         <div className={`absolute inset-0 bg-gradient-to-br ${colors.shine} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
         
