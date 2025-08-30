@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 import { Product, TransferInput } from '../types/product';
 import { getProductStatus } from '../utils/productUtils';
 import { Badge } from './Badge';
@@ -44,25 +45,39 @@ export function ProductDrawer({
   const stockPercentage = Math.min(100, Math.round(stockRatio * 100));
 
   return (
-    <>
-      {/* Backdrop */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-20 z-40"
-          onClick={onClose}
-        />
-      )}
+    <Transition.Root show={isOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-50" onClose={onClose}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-in-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in-out duration-300"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black bg-opacity-20" />
+        </Transition.Child>
 
-      {/* Drawer */}
-      <div
-        className={`fixed right-0 top-0 h-full w-full sm:w-[450px] bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-50 ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <div className="flex flex-col h-full">
-          {/* Header */}
-          <div className="flex items-center justify-between p-5 border-b bg-indigo-50">
-            <h2 className="text-xl font-semibold text-indigo-900">Product Details</h2>
+        <div className="fixed inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full">
+              <Transition.Child
+                as={Fragment}
+                enter="transform transition ease-in-out duration-300"
+                enterFrom="translate-x-full"
+                enterTo="translate-x-0"
+                leave="transform transition ease-in-out duration-300"
+                leaveFrom="translate-x-0"
+                leaveTo="translate-x-full"
+              >
+                <Dialog.Panel className="pointer-events-auto w-screen sm:w-[450px]">
+                  <div className="flex flex-col h-full bg-white shadow-2xl">
+                    {/* Header */}
+                    <div className="flex items-center justify-between p-5 border-b bg-indigo-50">
+                      <Dialog.Title className="text-xl font-semibold text-indigo-900">
+                        Product Details
+                      </Dialog.Title>
             <button
               onClick={onClose}
               className="p-2 hover:bg-indigo-100 rounded-full text-indigo-700 transition-colors"
@@ -289,8 +304,13 @@ export function ProductDrawer({
               </div>
             )}
           </div>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
         </div>
-      </div>
-    </>
+      </Dialog>
+    </Transition.Root>
   );
 }
