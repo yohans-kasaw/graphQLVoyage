@@ -28,6 +28,8 @@ export function ProductDrawer({
   const [to, setTo] = useState<string>('');
   const [qty, setQty] = useState<number>(0);
   const [activeTab, setActiveTab] = useState<'details' | 'demand' | 'transfer'>('details');
+  const [demandError, setDemandError] = useState<string>('');
+  const [transferError, setTransferError] = useState<string>('');
 
   useEffect(() => {
     if (product) {
@@ -35,8 +37,38 @@ export function ProductDrawer({
       setTo('');
       setQty(0);
       setActiveTab('details');
+      setDemandError('');
+      setTransferError('');
     }
   }, [product]);
+
+  const validateDemand = (value: number): string => {
+    if (!Number.isInteger(value)) return 'Demand must be a whole number';
+    if (value < 0) return 'Demand cannot be negative';
+    return '';
+  };
+
+  const validateTransfer = (toWarehouse: string, quantity: number): string => {
+    if (!toWarehouse) return 'Please select a destination warehouse';
+    if (!Number.isInteger(quantity)) return 'Quantity must be a whole number';
+    if (quantity <= 0) return 'Quantity must be greater than 0';
+    if (quantity > product.stock) return `Cannot transfer more than available stock (${product.stock})`;
+    return '';
+  };
+
+  const handleDemandChange = (value: number) => {
+    setDemand(value);
+    setDemandError(validateDemand(value));
+  };
+
+  const handleTransferChange = (toWarehouse: string, quantity: number) => {
+    setTo(toWarehouse);
+    setQty(quantity);
+    setTransferError(validateTransfer(toWarehouse, quantity));
+  };
+
+  const isDemandValid = demand >= 0 && Number.isInteger(demand) && demandError === '';
+  const isTransferValid = to && qty > 0 && qty <= product.stock && Number.isInteger(qty) && transferError === '';
 
   if (!product) return null;
 
@@ -199,13 +231,21 @@ export function ProductDrawer({
                       type="number"
                       value={demand}
                       min={0}
-                      onChange={(e) => setDemand(Number(e.target.value))}
-                      className="w-full rounded-xl border border-gray-200/50 py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/50 backdrop-blur-sm"
+                      step={1}
+                      onChange={(e) => handleDemandChange(Number(e.target.value))}
+                      className={`w-full rounded-xl border py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/50 backdrop-blur-sm ${
+                        demandError ? 'border-red-300 focus:border-red-400 focus:ring-red-500/20' : 'border-gray-200/50'
+                      }`}
                     />
+                    {demandError && (
+                      <p className="mt-2 text-sm text-red-600 font-medium">
+                        ⚠️ {demandError}
+                      </p>
+                    )}
                   </div>
                   
                   <button
-                    disabled={busy || demand === product.demand}
+                    disabled={busy || demand === product.demand || !isDemandValid}
                     onClick={() => onUpdateDemand(product.id, demand)}
                     className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold hover:from-indigo-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
@@ -249,8 +289,10 @@ export function ProductDrawer({
                     <div className="relative">
                       <select
                         value={to}
-                        onChange={(e) => setTo(e.target.value)}
-                        className="w-full rounded-xl border border-gray-200/50 py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/50 backdrop-blur-sm appearance-none cursor-pointer"
+                        onChange={(e) => handleTransferChange(e.target.value, qty)}
+                        className={`w-full rounded-xl border py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/50 backdrop-blur-sm appearance-none cursor-pointer ${
+                          transferError && !to ? 'border-red-300 focus:border-red-400 focus:ring-red-500/20' : 'border-gray-200/50'
+                        }`}
                       >
                         <option value="">Select destination warehouse</option>
                         {allWarehouses
@@ -275,21 +317,28 @@ export function ProductDrawer({
                       type="number"
                       min={1}
                       max={product.stock}
+                      step={1}
                       value={qty}
-                      onChange={(e) => setQty(Number(e.target.value))}
-                      className="w-full rounded-xl border border-gray-200/50 py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/50 backdrop-blur-sm"
+                      onChange={(e) => handleTransferChange(to, Number(e.target.value))}
+                      className={`w-full rounded-xl border py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/50 backdrop-blur-sm ${
+                        transferError && qty > 0 ? 'border-red-300 focus:border-red-400 focus:ring-red-500/20' : 'border-gray-200/50'
+                      }`}
                       placeholder="Enter quantity"
                     />
-                    {qty > product.stock && (
+                    {transferError && (
                       <p className="mt-2 text-sm text-red-600 font-medium">
-                        ⚠️ Cannot transfer more than available stock
+                        ⚠️ {transferError}
                       </p>
                     )}
                   </div>
                   
                   <button
-                    disabled={busy || !to || qty <= 0 || qty > product.stock}
-                    className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+                    disabled={busy || !isTransferValid}
+                    className={`w-full py-3 rounded-xl text-white font-bold transition-all duration-200 shadow-lg hover:shadow-xl ${
+                      busy || !isTransferValid
+                        ? 'bg-gray-400 cursor-not-allowed opacity-60'
+                        : 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 hover:scale-[1.02] active:scale-[0.98]'
+                    }`}
                     onClick={() =>
                       onTransfer({ id: product.id, from: product.warehouse, to, qty })
                     }
