@@ -36,3 +36,13 @@ export const PRODUCTS_QUERY = gql`
     }
   }
 `;
+
+export const KPIS_QUERY = gql`
+  query KPIs($range: String!) {
+    kpis(range: $range) {
+      date
+      stock
+      demand
+    }
+  }
+`;
