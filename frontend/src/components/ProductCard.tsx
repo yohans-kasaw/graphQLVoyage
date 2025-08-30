@@ -28,14 +28,13 @@ export function ProductCard({
   return (
     <div className="bg-white p-4 rounded-lg shadow-sm border">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-        <div>
-          <div className="font-medium">{product.name}</div>
-          <div className="text-sm text-gray-500">
-            {product.id} • {product.sku}
+        <div className="flex gap-4 items-center flex-1">
+          <div className="min-w-0 flex-1">
+            <div className="font-medium">{product.name}</div>
           </div>
-        </div>
-        <div className="flex gap-4 items-center">
-          <Badge color={status.color}>{status.label}</Badge>
+          <div className="text-sm">
+            <span className="font-medium">SKU:</span> {product.sku}
+          </div>
           <div className="text-sm">
             <span className="font-medium">WH:</span> {product.warehouse}
           </div>
@@ -59,6 +58,9 @@ export function ProductCard({
               Save
             </button>
           </div>
+          <Badge color={status.color}>{status.label}</Badge>
+        </div>
+        <div className="flex gap-2">
           <button
             className="px-3 py-1 rounded border hover:bg-gray-50"
             onClick={() => setShowTransfer((s) => !s)}
