@@ -10,9 +10,15 @@ export const resolvers = {
   Query: {
     products: (
       _: unknown,
-      args: { search?: string; status?: string; warehouse?: string }
-    ): Product[] => {
-      const { search, status, warehouse } = args;
+      args: {
+        search?: string;
+        status?: string;
+        warehouse?: string;
+        page?: number;
+        pageSize?: number;
+      }
+    ): { products: Product[]; total: number } => {
+      const { search, status, warehouse, page = 1, pageSize = 10 } = args;
       let result = products.slice();
 
       if (search && search.trim()) {
@@ -35,7 +41,12 @@ export const resolvers = {
         result = result.filter(p => statusOf(p) === s);
       }
 
-      return result;
+      const total = result.length;
+      const start = (page - 1) * pageSize;
+      const end = start + pageSize;
+      const paginatedProducts = result.slice(start, end);
+
+      return { products: paginatedProducts, total };
     },
 
     warehouses: (): Warehouse[] => {

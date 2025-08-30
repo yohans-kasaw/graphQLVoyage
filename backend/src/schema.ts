@@ -15,6 +15,11 @@ export const typeDefs = `
     demand: Int!
   }
 
+  type ProductsPage {
+    products: [Product!]!
+    total: Int!
+  }
+
   type KPI {
     date: String!
     stock: Int!
@@ -22,7 +27,7 @@ export const typeDefs = `
   }
 
   type Query {
-    products(search: String, status: String, warehouse: String): [Product!]!
+    products(search: String, status: String, warehouse: String, page: Int, pageSize: Int): ProductsPage!
     warehouses: [Warehouse!]!
     kpis(range: String!): [KPI!]!
   }

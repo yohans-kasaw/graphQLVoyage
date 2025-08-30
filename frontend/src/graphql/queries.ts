@@ -10,14 +10,29 @@ export const WAREHOUSES_QUERY = gql`
 `;
 
 export const PRODUCTS_QUERY = gql`
-  query Products($search: String, $status: String, $warehouse: String) {
-    products(search: $search, status: $status, warehouse: $warehouse) {
-      id
-      name
-      sku
-      warehouse
-      stock
-      demand
+  query Products(
+    $search: String
+    $status: String
+    $warehouse: String
+    $page: Int
+    $pageSize: Int
+  ) {
+    products(
+      search: $search
+      status: $status
+      warehouse: $warehouse
+      page: $page
+      pageSize: $pageSize
+    ) {
+      products {
+        id
+        name
+        sku
+        warehouse
+        stock
+        demand
+      }
+      total
     }
   }
 `;

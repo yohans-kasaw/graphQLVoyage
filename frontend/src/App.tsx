@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client/react';
 import { WAREHOUSES_QUERY, PRODUCTS_QUERY } from './graphql/queries';
 import { UPDATE_DEMAND, TRANSFER_STOCK } from './graphql/mutations';
@@ -11,10 +11,18 @@ export default function App() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
   const [warehouse, setWarehouse] = useState('');
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
 
   const { data: wData, loading: wLoading } = useQuery(WAREHOUSES_QUERY);
   const { data: pData, loading: pLoading, refetch } = useQuery(PRODUCTS_QUERY, {
-    variables: { search, status: status || null, warehouse: warehouse || null }
+    variables: {
+      search,
+      status: status || null,
+      warehouse: warehouse || null,
+      page,
+      pageSize
+    }
   });
 
   const [updateDemand, { loading: updLoading }] = useMutation(UPDATE_DEMAND, {
@@ -25,8 +33,14 @@ export default function App() {
     onCompleted: () => refetch()
   });
 
+  useEffect(() => {
+    setPage(1);
+  }, [search, status, warehouse]);
+
   const warehouses = wData?.warehouses ?? [];
-  const products: Product[] = pData?.products ?? [];
+  const products: Product[] = pData?.products?.products ?? [];
+  const totalProducts = pData?.products?.total ?? 0;
+  const totalPages = Math.ceil(totalProducts / pageSize);
 
   const warehouseCodes = useMemo(
     () => warehouses.map((w: any) => w.code),
@@ -80,6 +94,32 @@ export default function App() {
             />
           ))}
         </div>
+
+        {totalProducts > 0 && (
+          <div className="mt-6 flex justify-between items-center">
+            <p className="text-sm text-gray-700">
+              Showing <span className="font-medium">{(page - 1) * pageSize + 1}</span> to{' '}
+              <span className="font-medium">{Math.min(page * pageSize, totalProducts)}</span> of{' '}
+              <span className="font-medium">{totalProducts}</span> results
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setPage(p => p - 1)}
+                disabled={page === 1}
+                className="px-3 py-1 border rounded-md bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => setPage(p => p + 1)}
+                disabled={page === totalPages}
+                className="px-3 py-1 border rounded-md bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
