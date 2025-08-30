@@ -17,7 +17,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
 
   return (
     <div 
-      className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-gray-200/60 cursor-pointer hover:shadow-lg hover:border-indigo-300/60 transition-all duration-300 group hover:bg-white/90"
+      className="bg-white/60 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-white/30 cursor-pointer hover:shadow-lg hover:border-indigo-300/60 transition-all duration-300 group hover:bg-white/80"
       onClick={() => onClick(product)}
     >
       <div className="flex items-center justify-between">
@@ -56,7 +56,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
           {/* Stock vs Demand Comparison */}
           <div className="flex items-center space-x-4">
             <div className="text-center">
-              <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200/50 mb-2">
+              <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100/50 backdrop-blur-sm border border-blue-200/50 mb-2">
                 <div className="text-center">
                   <div className="text-xl font-bold text-blue-600">{product.stock}</div>
                   <div className="text-xs text-blue-500 font-medium">Stock</div>
@@ -76,7 +76,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
               </div>
               
               {/* Progress Bar */}
-              <div className="w-24 bg-gray-200 rounded-full h-2 overflow-hidden">
+              <div className="w-24 bg-gray-200/50 rounded-full h-2 overflow-hidden">
                 <div 
                   className={`h-2 rounded-full transition-all duration-500 ease-out ${
                     status.color === 'green' 
@@ -92,7 +92,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
             </div>
 
             <div className="text-center">
-              <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100 border border-emerald-200/50 mb-2">
+              <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-100/50 backdrop-blur-sm border border-emerald-200/50 mb-2">
                 <div className="text-center">
                   <div className="text-xl font-bold text-emerald-600">{product.demand}</div>
                   <div className="text-xs text-emerald-500 font-medium">Demand</div>

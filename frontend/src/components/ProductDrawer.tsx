@@ -78,9 +78,9 @@ export function ProductDrawer({
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen sm:w-[480px]">
-                  <div className="flex flex-col h-full bg-gradient-to-br from-white to-gray-50/50 shadow-2xl backdrop-blur-md">
+                  <div className="flex flex-col h-full bg-gradient-to-br from-white/80 to-gray-50/50 shadow-2xl backdrop-blur-lg">
                     {/* Header */}
-                    <div className="flex items-center justify-between p-6 border-b border-gray-200/50 bg-white/80 backdrop-blur-md">
+                    <div className="flex items-center justify-between p-6 border-b border-white/30 bg-white/60 backdrop-blur-lg">
                       <div className="flex items-center space-x-3">
                         <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full"></div>
                         <Dialog.Title className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
@@ -96,14 +96,14 @@ export function ProductDrawer({
                     </div>
 
           {/* Tabs */}
-          <div className="flex border-b border-gray-200/50 bg-gray-50/50">
+          <div className="flex border-b border-white/30 bg-white/20 backdrop-blur-sm">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 className={`flex-1 py-4 px-2 text-sm font-medium transition-all duration-200 relative ${
                   activeTab === tab.id
-                    ? 'text-indigo-600 bg-white/80' 
-                    : 'text-gray-500 hover:text-gray-700 hover:bg-white/40'
+                    ? 'text-indigo-600 bg-white/60' 
+                    : 'text-gray-500 hover:text-gray-700 hover:bg-white/30'
                 }`}
                 onClick={() => setActiveTab(tab.id as any)}
               >
@@ -129,7 +129,7 @@ export function ProductDrawer({
                   </div>
                 </div>
                 
-                <div className="bg-gradient-to-br from-gray-50 to-white p-4 rounded-2xl border border-gray-200/50 shadow-sm">
+                <div className="bg-white/40 backdrop-blur-sm p-4 rounded-2xl border border-white/20 shadow-sm">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm font-medium text-gray-500">SKU</p>
@@ -177,7 +177,7 @@ export function ProductDrawer({
 
             {activeTab === 'demand' && (
               <div className="space-y-6 animate-in fade-in duration-300">
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-2xl border border-blue-200/50">
+                <div className="bg-blue-100/30 backdrop-blur-sm p-4 rounded-2xl border border-blue-200/50">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center">
                       <div className="text-2xl font-bold text-blue-600">{product.demand}</div>
@@ -200,7 +200,7 @@ export function ProductDrawer({
                       value={demand}
                       min={0}
                       onChange={(e) => setDemand(Number(e.target.value))}
-                      className="w-full rounded-xl border border-gray-200 py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/80 backdrop-blur-sm"
+                      className="w-full rounded-xl border border-gray-200/50 py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/50 backdrop-blur-sm"
                     />
                   </div>
                   
@@ -224,7 +224,7 @@ export function ProductDrawer({
 
             {activeTab === 'transfer' && (
               <div className="space-y-6 animate-in fade-in duration-300">
-                <div className="bg-gradient-to-br from-emerald-50 to-green-50 p-4 rounded-2xl border border-emerald-200/50">
+                <div className="bg-emerald-100/30 backdrop-blur-sm p-4 rounded-2xl border border-emerald-200/50">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-emerald-700">Available Stock</span>
                     <div className="flex items-center space-x-2">
@@ -240,7 +240,7 @@ export function ProductDrawer({
                     <input
                       value={`Warehouse ${product.warehouse}`}
                       disabled
-                      className="w-full rounded-xl border border-gray-200 bg-gray-50/80 py-3 px-4 text-gray-600 font-medium"
+                      className="w-full rounded-xl border border-gray-200/50 bg-white/30 py-3 px-4 text-gray-600 font-medium"
                     />
                   </div>
                   
@@ -250,7 +250,7 @@ export function ProductDrawer({
                       <select
                         value={to}
                         onChange={(e) => setTo(e.target.value)}
-                        className="w-full rounded-xl border border-gray-200 py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/80 backdrop-blur-sm appearance-none cursor-pointer"
+                        className="w-full rounded-xl border border-gray-200/50 py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/50 backdrop-blur-sm appearance-none cursor-pointer"
                       >
                         <option value="">Select destination warehouse</option>
                         {allWarehouses
@@ -277,7 +277,7 @@ export function ProductDrawer({
                       max={product.stock}
                       value={qty}
                       onChange={(e) => setQty(Number(e.target.value))}
-                      className="w-full rounded-xl border border-gray-200 py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/80 backdrop-blur-sm"
+                      className="w-full rounded-xl border border-gray-200/50 py-3 px-4 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all duration-200 bg-white/50 backdrop-blur-sm"
                       placeholder="Enter quantity"
                     />
                     {qty > product.stock && (
