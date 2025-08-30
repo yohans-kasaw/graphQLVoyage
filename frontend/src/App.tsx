@@ -6,7 +6,8 @@ import { Product } from './types/product';
 import { Filters } from './components/Filters';
 import { ProductCard } from './components/ProductCard';
 import { ProductDrawer } from './components/ProductDrawer';
-import { ArchiveBoxIcon } from '@heroicons/react/24/outline';
+import { KPICard } from './components/KPICard';
+import { ArchiveBoxIcon, CubeIcon, ChartBarIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import './App.css'
 
 export default function App() {
@@ -59,6 +60,19 @@ export default function App() {
     [warehouses]
   );
 
+  // Calculate KPIs from all products (not just current page)
+  const kpis = useMemo(() => {
+    if (!pData?.products?.products) return { totalStock: 0, totalDemand: 0, fillRate: 0 };
+    
+    const allProducts = pData.products.products;
+    const totalStock = allProducts.reduce((sum: number, p: Product) => sum + p.stock, 0);
+    const totalDemand = allProducts.reduce((sum: number, p: Product) => sum + p.demand, 0);
+    const fillableStock = allProducts.reduce((sum: number, p: Product) => sum + Math.min(p.stock, p.demand), 0);
+    const fillRate = totalDemand > 0 ? (fillableStock / totalDemand) * 100 : 0;
+    
+    return { totalStock, totalDemand, fillRate };
+  }, [pData?.products?.products]);
+
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
     setIsDrawerOpen(true);
@@ -98,7 +112,32 @@ export default function App() {
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-8">
+        {/* KPI Cards */}
         <div className="mb-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <KPICard
+              title="Total Stock"
+              value={kpis.totalStock.toLocaleString()}
+              subtitle="units in inventory"
+              icon={<CubeIcon />}
+              color="blue"
+            />
+            <KPICard
+              title="Total Demand"
+              value={kpis.totalDemand.toLocaleString()}
+              subtitle="units required"
+              icon={<ChartBarIcon />}
+              color="purple"
+            />
+            <KPICard
+              title="Fill Rate"
+              value={`${kpis.fillRate.toFixed(1)}%`}
+              subtitle="demand fulfillment"
+              icon={<CheckCircleIcon />}
+              color={kpis.fillRate >= 90 ? "green" : kpis.fillRate >= 70 ? "amber" : "green"}
+            />
+          </div>
+          
           <Filters
             search={search}
             setSearch={setSearch}
