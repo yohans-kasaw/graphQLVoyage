@@ -7,6 +7,7 @@ import { Filters } from './components/Filters';
 import { ProductCard } from './components/ProductCard';
 import { ProductDrawer } from './components/ProductDrawer';
 import { KPICard } from './components/KPICard';
+import { StockDemandChart } from './components/StockDemandChart';
 import { ArchiveBoxIcon, CubeIcon, ChartBarIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import './App.css'
 
@@ -136,6 +137,11 @@ export default function App() {
               icon={<CheckCircleIcon />}
               color={kpis.fillRate >= 90 ? "green" : kpis.fillRate >= 70 ? "amber" : "green"}
             />
+          </div>
+
+          {/* Stock vs Demand Chart */}
+          <div className="mb-8">
+            <StockDemandChart range="7d" />
           </div>
           
           <Filters
