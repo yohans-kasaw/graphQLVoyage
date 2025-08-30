@@ -75,8 +75,8 @@ export default function App() {
         <div className="mx-auto max-w-7xl px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
-                <ArchiveBoxIcon className="h-5 w-5 text-white" />
+              <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg">
+                <ArchiveBoxIcon className="h-6 w-6 text-white" />
               </div>
               <div>
                 <h1 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
@@ -121,7 +121,7 @@ export default function App() {
         )}
 
         {!pLoading && products.length === 0 && (
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-16 text-center">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-200/60 p-16 text-center">
             <div className="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-6">
               <ArchiveBoxIcon className="h-10 w-10 text-gray-400" />
             </div>
@@ -146,7 +146,7 @@ export default function App() {
         </div>
 
         {totalProducts > 0 && (
-          <div className="mt-12 flex justify-between items-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-200/50">
+          <div className="mt-12 flex justify-between items-center bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-gray-200/60">
             <div className="flex items-center space-x-4">
               <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
               <p className="text-sm text-gray-700">
@@ -159,7 +159,7 @@ export default function App() {
               <button
                 onClick={() => setPage(p => p - 1)}
                 disabled={page === 1}
-                className="px-5 py-2.5 border border-gray-300 rounded-xl bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 shadow-sm"
+                className="px-5 py-2.5 border border-indigo-200 rounded-xl bg-white text-sm font-medium text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 shadow-sm"
               >
                 Previous
               </button>

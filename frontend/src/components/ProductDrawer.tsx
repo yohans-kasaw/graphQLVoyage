@@ -44,6 +44,12 @@ export function ProductDrawer({
   const stockRatio = product.stock / Math.max(1, product.demand);
   const stockPercentage = Math.min(100, Math.round(stockRatio * 100));
 
+  const tabs = [
+    { id: 'details', label: 'Details', icon: ArchiveBoxIcon },
+    { id: 'demand', label: 'Demand', icon: ChartBarIcon },
+    { id: 'transfer', label: 'Transfer', icon: TruckIcon }
+  ];
+
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
@@ -91,11 +97,7 @@ export function ProductDrawer({
 
           {/* Tabs */}
           <div className="flex border-b border-gray-200/50 bg-gray-50/50">
-            {[
-              { id: 'details', label: 'Details', icon: '📊' },
-              { id: 'demand', label: 'Demand', icon: '📈' },
-              { id: 'transfer', label: 'Transfer', icon: '🚚' }
-            ].map((tab) => (
+            {tabs.map((tab) => (
               <button
                 key={tab.id}
                 className={`flex-1 py-4 px-2 text-sm font-medium transition-all duration-200 relative ${
@@ -106,7 +108,7 @@ export function ProductDrawer({
                 onClick={() => setActiveTab(tab.id as any)}
               >
                 <div className="flex items-center justify-center space-x-2">
-                  <span className="text-base">{tab.icon}</span>
+                  <tab.icon className="w-5 h-5" />
                   <span>{tab.label}</span>
                 </div>
                 {activeTab === tab.id && (
@@ -299,7 +301,7 @@ export function ProductDrawer({
                       </div>
                     ) : (
                       <div className="flex items-center justify-center space-x-2">
-                        <span>🚚</span>
+                        <TruckIcon className="w-5 h-5" />
                         <span>Transfer Stock</span>
                       </div>
                     )}
