@@ -22,7 +22,7 @@ export default function App() {
   const { data: pData, loading: pLoading, refetch } = useQuery(PRODUCTS_QUERY, {
     variables: {
       search,
-      status: status || null,
+      status: status ? status.toLowerCase() : null,
       warehouse: warehouse || null,
       page,
       pageSize
