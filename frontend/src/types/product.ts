@@ -9,7 +9,7 @@ export type Product = {
 
 export type ProductStatus = {
   label: string;
-  color: 'yellow' | 'green' | 'blue';
+  color: 'yellow' | 'green' | 'red';
 };
 
 export type TransferInput = {

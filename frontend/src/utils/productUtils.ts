@@ -2,17 +2,17 @@ import { Product, ProductStatus } from '../types/product';
 
 export function getProductStatus(product: Product): ProductStatus {
   if (product.stock < product.demand) {
-    return { label: 'Shortage', color: 'yellow' };
+    return { label: 'Critical', color: 'red' };
   }
   if (product.stock > product.demand) {
-    return { label: 'Overstock', color: 'blue' };
+    return { label: 'Healthy', color: 'green' };
   }
-  return { label: 'Balanced', color: 'green' };
+  return { label: 'Low', color: 'yellow' };
 }
 
 export const statusOptions = [
   { label: 'All', value: '' },
-  { label: 'Shortage', value: 'shortage' },
-  { label: 'Balanced', value: 'balanced' },
-  { label: 'Overstock', value: 'overstock' }
+  { label: 'Critical', value: 'critical' },
+  { label: 'Low', value: 'low' },
+  { label: 'Healthy', value: 'healthy' }
 ];

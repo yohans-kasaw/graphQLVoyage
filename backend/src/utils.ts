@@ -1,9 +1,9 @@
 import type { Product } from './types';
 
-export function statusOf(p: Product): 'shortage' | 'balanced' | 'overstock' {
-  if (p.stock < p.demand) return 'shortage';
-  if (p.stock > p.demand) return 'overstock';
-  return 'balanced';
+export function statusOf(p: Product): 'critical' | 'low' | 'healthy' {
+  if (p.stock < p.demand) return 'critical';
+  if (p.stock > p.demand) return 'healthy';
+  return 'low';
 }
 
 export function parseRange(range: string): number {
