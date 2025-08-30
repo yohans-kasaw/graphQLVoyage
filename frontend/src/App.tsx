@@ -5,6 +5,7 @@ import { UPDATE_DEMAND, TRANSFER_STOCK } from './graphql/mutations';
 import { Product } from './types/product';
 import { Filters } from './components/Filters';
 import { ProductCard } from './components/ProductCard';
+import { ProductDrawer } from './components/ProductDrawer';
 import './App.css'
 
 export default function App() {
@@ -12,6 +13,8 @@ export default function App() {
   const [status, setStatus] = useState('');
   const [warehouse, setWarehouse] = useState('');
   const [page, setPage] = useState(1);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const pageSize = 10;
 
   const { data: wData, loading: wLoading } = useQuery(WAREHOUSES_QUERY);
@@ -26,11 +29,19 @@ export default function App() {
   });
 
   const [updateDemand, { loading: updLoading }] = useMutation(UPDATE_DEMAND, {
-    onCompleted: () => refetch()
+    onCompleted: () => {
+      refetch();
+      setIsDrawerOpen(false);
+      setSelectedProduct(null);
+    }
   });
 
   const [transferStock, { loading: xferLoading }] = useMutation(TRANSFER_STOCK, {
-    onCompleted: () => refetch()
+    onCompleted: () => {
+      refetch();
+      setIsDrawerOpen(false);
+      setSelectedProduct(null);
+    }
   });
 
   useEffect(() => {
@@ -46,6 +57,16 @@ export default function App() {
     () => warehouses.map((w: any) => w.code),
     [warehouses]
   );
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsDrawerOpen(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
+    setSelectedProduct(null);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -79,18 +100,7 @@ export default function App() {
             <ProductCard
               key={`${p.id}-${p.warehouse}`}
               product={p}
-              allWarehouses={warehouseCodes}
-              onUpdateDemand={async (id, demand) =>
-                updateDemand({
-                  variables: { id, demand: Number(demand) }
-                }).catch((e) => alert(e.message))
-              }
-              onTransfer={async ({ id, from, to, qty }) =>
-                transferStock({
-                  variables: { id, from, to, qty: Number(qty) }
-                }).catch((e) => alert(e.message))
-              }
-              busy={updLoading || xferLoading}
+              onClick={handleProductClick}
             />
           ))}
         </div>
@@ -120,6 +130,24 @@ export default function App() {
             </div>
           </div>
         )}
+
+        <ProductDrawer
+          product={selectedProduct}
+          isOpen={isDrawerOpen}
+          onClose={handleCloseDrawer}
+          allWarehouses={warehouseCodes}
+          onUpdateDemand={async (id, demand) =>
+            updateDemand({
+              variables: { id, demand: Number(demand) }
+            }).catch((e) => alert(e.message))
+          }
+          onTransfer={async ({ id, from, to, qty }) =>
+            transferStock({
+              variables: { id, from, to, qty: Number(qty) }
+            }).catch((e) => alert(e.message))
+          }
+          busy={updLoading || xferLoading}
+        />
       </main>
     </div>
   );
