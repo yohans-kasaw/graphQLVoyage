@@ -13,6 +13,8 @@ export const TRANSFER_STOCK = gql`
   mutation TransferStock($id: ID!, $from: String!, $to: String!, $qty: Int!) {
     transferStock(id: $id, from: $from, to: $to, qty: $qty) {
       id
+      name
+      sku
       warehouse
       stock
       demand

@@ -189,11 +189,16 @@ export default function App() {
               variables: { id, demand: Number(demand) }
             }).catch((e) => alert(e.message))
           }
-          onTransfer={async ({ id, from, to, qty }) =>
-            transferStock({
-              variables: { id, from, to, qty: Number(qty) }
-            }).catch((e) => alert(e.message))
-          }
+          onTransfer={async ({ id, from, to, qty }) => {
+            try {
+              await transferStock({
+                variables: { id, from, to, qty: Number(qty) }
+              });
+            } catch (e: any) {
+              console.error('Transfer error:', e);
+              alert(e.message || 'Transfer failed');
+            }
+          }}
           busy={updLoading || xferLoading}
         />
       </main>
