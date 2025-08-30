@@ -5,6 +5,8 @@
     "devDependencies": {
         "@eslint/js": "^9.34.0",
         "@types/bun": "latest",
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.3",
         "@typescript-eslint/eslint-plugin": "^8.41.0",
         "@typescript-eslint/parser": "^8.41.0",
         "eslint": "^9.34.0",
@@ -16,6 +18,9 @@
     },
     "dependencies": {
         "@apollo/server": "^5.0.0",
+        "@as-integrations/express5": "^1.1.2",
+        "cors": "^2.8.5",
+        "express": "^5.1.0",
         "graphql": "^16.11.0"
     }
 }

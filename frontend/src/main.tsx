@@ -1,19 +1,19 @@
+import { ApolloProvider } from '@apollo/client/react'
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client'
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+
 import './index.css'
 import App from './App.tsx'
 
-
-import { MockedProvider } from '@apollo/client/testing/react'
-import apolloMock from './lib/apolloMock.ts'
-
-// import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client'
-// import { ApolloProvider } from '@apollo/client/react'
-// const apolloClient = new ApolloClient({
-//     link: new HttpLink({ uri: 'https://flyby-router-demo.herokuapp.com/' }),
-//     cache: new InMemoryCache(),
-// })
-
+const apolloClient = new ApolloClient({
+    link: new HttpLink({
+        uri: 'http://localhost:4000/graphql',
+        credentials: 'include',
+    }),
+    cache: new InMemoryCache(),
+})
 
 const rootElm = document.getElementById('root')
 if (!rootElm) {
@@ -21,15 +21,9 @@ if (!rootElm) {
 }
 
 createRoot(rootElm).render(
-    <MockedProvider mocks={apolloMock}>
-      <StrictMode>
-          <App />
-      </StrictMode>
-    </MockedProvider>
-
-    //<ApolloProvider client={apolloClient}>
-    //    <StrictMode>
-    //        <App />
-    //    </StrictMode>
-    //</ApolloProvider>
+    <ApolloProvider client={apolloClient}>
+        <StrictMode>
+            <App />
+        </StrictMode>
+    </ApolloProvider>,
 )
