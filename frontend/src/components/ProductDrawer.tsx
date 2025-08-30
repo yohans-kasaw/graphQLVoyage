@@ -50,6 +50,7 @@ export function ProductDrawer({
   };
 
   const validateTransfer = (toWarehouse: string, quantity: number | ''): string => {
+    if (!product) return 'Product not available';
     if (!toWarehouse) return 'Please select a destination warehouse';
     if (quantity === '') return 'Please enter a quantity';
     if (!Number.isInteger(quantity)) return 'Quantity must be a whole number';
@@ -70,7 +71,7 @@ export function ProductDrawer({
   };
 
   const isDemandValid = demand !== '' && demand >= 0 && Number.isInteger(demand) && demandError === '';
-  const isTransferValid = to && qty !== '' && qty > 0 && qty <= product.stock && Number.isInteger(qty) && transferError === '';
+  const isTransferValid = product && to && qty !== '' && qty > 0 && qty <= product.stock && Number.isInteger(qty) && transferError === '';
 
   if (!product) return null;
 
